@@ -81,6 +81,26 @@ L.HeatLayer = (L.Layer ? L.Layer : L.Class).extend({
         return this;
     },
 
+    bringToFront: function() {
+        if (this.options.pane) {
+            this.getPane().removeChild(this._canvas);
+            this.getPane().appendChild(this._canvas);
+        } else {
+            this._map._panes.overlayPane.removeChild(this._canvas);
+            this._map._panes.overlayPane.appendChild(this._canvas);
+        }
+    },
+
+    bringToBack: function() {
+        if (this.options.pane) {
+            this.getPane().removeChild(this._canvas);
+            this.getPane().insertBefore(this._canvas, this.getPane().firstChild);
+        } else {
+            this._map._panes.overlayPane.removeChild(this._canvas);
+            this._map._panes.overlayPane.insertBefore(this._canvas, this._map._panes.overlayPane.firstChild);
+        }
+    },
+
     _initCanvas: function () {
         var canvas = this._canvas = L.DomUtil.create('canvas', 'leaflet-heatmap-layer leaflet-layer');
 
